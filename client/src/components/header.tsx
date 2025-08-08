@@ -1,35 +1,26 @@
 import { Link, useLocation } from "react-router";
 import * as React from "react";
 import { FaAlignJustify } from "react-icons/fa";
+import { headerData } from "../data/componentData";
+
 const Header = () => {
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] =
     React.useState<boolean>(false);
-
-  const headerData = [
-    {
-      title: "Home",
-      link: "/",
-    },
-    {
-      title: "Home2",
-      link: "/exhibit",
-    },
-    {
-      title: "Home3",
-      link: "/visit",
-    },
-  ];
 
   const closeMobileMenu = () => {
     setIsMobileMenuOpen(false);
   };
 
   return (
-    <header className="shadow-2xl sticky z-20 top-0 bg-white flex justify-between border-b-2 border-gray-300 px-4 py-2 sm:px-48 items-center">
+    <header className="bg-primary shadow-2xl sticky z-20 top-0 flex justify-between border-b border-support-gray-dark px-4 py-2 sm:px-48 items-center">
       <div className={isMobileMenuOpen ? "hidden" : "block"}>
         <span>
-          <img src="https://nerdantabucket0.sgp1.cdn.digitaloceanspaces.com/FuHuaThumbsup.png" alt="LogoFull1" className="h-16 w-16" />
+          <img
+            src="https://nerdantabucket0.sgp1.cdn.digitaloceanspaces.com/FuHuaThumbsup.png"
+            alt="LogoFull1"
+            className="h-16 w-16"
+          />
         </span>
       </div>
       <div className="hidden sm:block">
@@ -45,11 +36,10 @@ const Header = () => {
                 duration-500
                 ease-in-out
                 hover:scale-105
-                hover:text-black
                 ${
                   location.pathname === data.link
-                    ? "text-black"
-                    : "text-gray-500"
+                    ? "text-secondary"
+                    : "text-text-main hover:text-secondary"
                 }
               `}
             >
@@ -61,20 +51,20 @@ const Header = () => {
 
       <div className={`sm:hidden ${isMobileMenuOpen ? "hidden" : "block"}`}>
         <FaAlignJustify
-          className="text-xl cursor-pointer"
+          className="text-text-main text-2xl cursor-pointer"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         />
       </div>
 
       {isMobileMenuOpen && (
-        <div className="w-full p-2">
+        <div className="absolute top-0 left-0 w-full bg-primary p-4 shadow-xl">
           <div className="w-full flex justify-end">
             <FaAlignJustify
-              className="text-xl cursor-pointer rotate-90 transform transition duration-300"
+              className="text-text-main text-2xl cursor-pointer rotate-90 transform transition duration-300"
               onClick={closeMobileMenu}
             />
           </div>
-          <section className="flex flex-col text-2xl gap-2 items-center">
+          <section className="flex flex-col text-2xl gap-2 items-center mt-4">
             {headerData.map((data, index) => (
               <Link
                 to={data.link}
@@ -84,8 +74,8 @@ const Header = () => {
                   py-4
                   ${
                     location.pathname === data.link
-                      ? "text-black"
-                      : "text-gray-700"
+                      ? "text-secondary"
+                      : "text-text-main"
                   }
                 `}
                 onClick={closeMobileMenu}
