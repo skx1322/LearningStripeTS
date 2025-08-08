@@ -1,6 +1,7 @@
 import { Elysia } from "elysia";
 import { SERVER_CONFIG } from "./config/env.global";
 import connectDB from "./config/db";
+import { router } from "./router/router";
 
 const app = new Elysia();
 
@@ -11,7 +12,9 @@ app.get("/", () => {
     port: app.server?.port,
     frontend: SERVER_CONFIG.FRONTEND_URL
   }
-})
+});
+
+app.use(router);
 
 connectDB().then(() => {
   app.listen({
