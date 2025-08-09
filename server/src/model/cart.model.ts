@@ -1,12 +1,6 @@
 import { Schema, model } from 'mongoose';
 
 const CartShoppingSchema = new Schema({
-    cartID: {
-        type: String,
-        required: true,
-        unique: true,
-        trim: true,
-    },
     productID: {
         type: String,
         required: true,

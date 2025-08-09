@@ -6,7 +6,6 @@ export const accountModel = new Elysia({ name: "userRegister" })
             username: t.String(),
             email: t.String(),
             password: t.String(),
-
             avatar: t.Optional(t.File()),
         })
     })
