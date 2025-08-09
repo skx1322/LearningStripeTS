@@ -1,3 +1,4 @@
+import { status } from "elysia";
 import { BUCKET_CONFIG } from "../../config/env.global";
 import { s3 } from "../../config/s3";
 import { getFileBuffer } from "../../utils/bufferFile";
@@ -12,7 +13,7 @@ export async function uploadImage(image: File): Promise<string> {
             return "";
         }
         const fileExtension = image.name.split('.').pop();
-        const uniqueFileName = `blog-images/${await UUIDHex()}.${fileExtension}`;
+        const uniqueFileName = `imageAsset/${await UUIDHex("hex", 2)}.${fileExtension}`;
 
         const DO_BUCKET = BUCKET_CONFIG.bucket;
         const DO_REGION = BUCKET_CONFIG.region;

@@ -1,12 +1,6 @@
 import { Schema, model } from 'mongoose';
 
 const ProductSchema = new Schema({
-    productID: {
-        type: String,
-        required: true,
-        unique: true,
-        trim: true,
-    },
     productName: {
         type: String,
         required: true,
@@ -47,8 +41,8 @@ const ProductSchema = new Schema({
         required: true,
     },
     productMerchant: {
-        type: Schema.Types.ObjectId,
-        ref: 'Merchant',
+        type: String,
+        ref: 'Account',
         required: true,
     },
     productBrand: {

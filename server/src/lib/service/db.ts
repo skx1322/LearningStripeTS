@@ -39,7 +39,6 @@ export class DBAccount {
             }
 
             const accountPayload = {
-                _id: await UUIDHex(),
                 username: this.accountBody.username,
                 email: this.accountBody.email,
                 password: newPassword,
@@ -88,7 +87,8 @@ export class DBAccount {
             { new: true }
         );
         await updatedUser?.save();
-        const userID = findUser._id;
+        const userID = findUser._id.toString();
         return userID;
     }
 }
+

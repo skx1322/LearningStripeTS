@@ -7,13 +7,16 @@ Trying to learn about way to implement payment gateway by creating a fullstack e
 1. MongoDB 
 2. Stripe API
 3. OAuth Client ID/Secret
+
 3A. DigitalOcean Storage Bucket
 
 
 # Development 
 ## Client
+[work in progress]
 
 ## 
+[work in progress]
 
 # About
 Placeholder image btw! Totally not gonna use it until the end of the project (not guarantee!!)

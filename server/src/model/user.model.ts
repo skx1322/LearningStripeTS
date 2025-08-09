@@ -1,12 +1,6 @@
 import { Schema, model } from 'mongoose';
 
 const AccountSchema = new Schema({
-    _id: {
-        type: String, 
-        alias: 'userID',
-        required: true,
-        trim: true,
-    },
     username: {
         type: String,
         required: true,

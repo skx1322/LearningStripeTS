@@ -43,9 +43,13 @@ export interface ProductItems {
     productBrand?: string,
 }
 
-export interface ShoppingCart {
-    user: AccountDocument,
-    items: ProductItems[],
+export interface CartShopping {
+    cartID: string,
+    productID: string,
+    quantity: number,
+    userID: string,
+    createdAt: string,
+    updatedAt: string,
 }
 
 export interface MerchantShop {

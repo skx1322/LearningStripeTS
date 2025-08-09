@@ -6,8 +6,8 @@ import { JWTDefault } from "../../config/access";
 export const accountUser = new Elysia()
     .use(accountModel)
     .use(JWTDefault)
-    .post("/account", async ({ body: { username, password, email, avatar } }) => {
-        const newAccount = await new DBAccount({ username, email, password, avatar }).CreateAccount();
+    .post("/account", async ({ body }) => {
+        const newAccount = await new DBAccount(body).CreateAccount();
         return status(201, {
                 success: true,
                 message: `Account successfully created!`,
