@@ -1,4 +1,10 @@
+export interface APICall<T> {
+    success: boolean,
+    message: string,
+    output: T
+}
 
+export type getCatalog = APICall<ProductItems[]>;
 export interface AccountLogin {
     username: string,
     password: string,
@@ -21,7 +27,7 @@ export interface AccountDocument {
     avatar: string,
     status: status,
     permission: permission,
-    lastLogin: Date, 
+    lastLogin: Date,
     createdAt: Date,
 }
 export interface ProductItems {
@@ -32,7 +38,7 @@ export interface ProductItems {
     productInStock: boolean,
 
     productQuantity: number,
-    
+
     productPrice: number,
     productDiscountPrice?: number,
 

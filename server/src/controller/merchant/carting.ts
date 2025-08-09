@@ -1,6 +1,5 @@
 import Elysia, { status } from "elysia";
 import { authUser } from "../../middleware/auth";
-import { ProductDB } from "../../lib/service/product";
 import { CartDB } from "../../lib/service/cart";
 import { cartModel } from "../../lib/custom/cartModel";
 

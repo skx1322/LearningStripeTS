@@ -2,8 +2,9 @@ import { Elysia } from "elysia";
 import { SERVER_CONFIG } from "./config/env.global";
 import connectDB from "./config/db";
 import { router } from "./router/router";
+import { CorsConfig } from "./config/access";
 
-const app = new Elysia();
+const app = new Elysia().use(CorsConfig);
 
 app.get("/", () => {
   return {

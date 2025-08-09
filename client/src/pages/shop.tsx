@@ -1,19 +1,45 @@
 import * as React from "react";
-import { Product } from "../data/test";
 import { Link } from "react-router";
+import { baseURL, catalogAPI } from "../api/publicAPI";
+import type { getCatalog, ProductItems } from "../types/types";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 const Shop = () => {
   const [activeCategory, setActiveCategory] = React.useState<string>("All");
+  const [currentProduct, setCurrentProduct] = React.useState<ProductItems[]>(
+    []
+  );
+
+  const callCatalog = async () => {
+    try {
+      const response = await axios.get<getCatalog>(
+        `${baseURL}/${catalogAPI.catalogGet.url}`
+      );
+      if (response.data.success) {
+        setCurrentProduct(response.data.output);
+      } else {
+        toast.error(response.data.message);
+      }
+    } catch (error) {
+      toast.error(error as string);
+    }
+  };
+
+  React.useEffect(() => {
+    callCatalog();
+  }, [])
+  
 
   const getUniqueCategories = () => {
-    const allCategories = Product.flatMap((item) => item.productCategory);
+    const allCategories = currentProduct.flatMap((item) => item.productCategory);
     return ["All", ...Array.from(new Set(allCategories))];
   };
 
   const filteredProducts =
     activeCategory === "All"
-      ? Product
-      : Product.filter((item) => item.productCategory.includes(activeCategory));
+      ? currentProduct
+      : currentProduct.filter((item) => item.productCategory.includes(activeCategory));
 
   return (
     <div className="bg-primary min-h-screen text-text-main py-12">

@@ -1,6 +1,7 @@
 import { status } from "elysia";
 import { CartShopping } from "../../model/cart.model";
 import { Product } from "../../model/product.model";
+import { CartFormat } from "../../types/types";
 
 // to add
 // 1. create cart (one per user), 2. add item to cart, 3. update cart items, 4. delete cart items, 5. expire cart, 6. validate
@@ -87,7 +88,7 @@ export class CartDB {
 
     static async getCart(userID: string) {
         try {
-            const cartItems = await CartShopping.find({ userID }).populate('productID');
+            const cartItems = await CartShopping.find({ userID }).populate('productID') as unknown as CartFormat[];
             return cartItems;
         } catch (error) {
             console.error(error);

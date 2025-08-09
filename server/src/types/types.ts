@@ -1,3 +1,5 @@
+import { ObjectId } from "mongoose";
+
 export type status = "Active" | "Inactive";
 export type permission = "User" | "Admin";
 export interface AccountCreate {
@@ -78,9 +80,9 @@ export interface ProductItems {
     productBrand?: string,
 }
 
-export interface CartShopping {
-    cartID: string,
-    productID: string,
+export interface CartFormat {
+    _id: string,
+    productID: ProductItems,
     quantity: number,
     userID: string,
     createdAt: string,

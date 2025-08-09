@@ -54,6 +54,16 @@ export class ProductDB {
         }
     }
 
+    static async allProduct() {
+        try {
+            const product = await Product.find({ productInStock: true });
+            return product;
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
+
     static async updateProduct(productCreate: ProductUpdate, productID: string, userID: string) {
         try {
             const findProduct = await Product.findOne({
