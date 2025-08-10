@@ -2,11 +2,13 @@ import { Outlet } from "react-router";
 import Footer from "./footer";
 import Header from "./header";
 import { Toaster } from "react-hot-toast";
+import Shopper from "./shopper";
 
 const Main = () => {
   return (
     <div>
       <Header></Header>
+      <Shopper></Shopper>
       <Outlet></Outlet>
       <Toaster
         position="top-right"

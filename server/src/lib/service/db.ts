@@ -87,6 +87,7 @@ export class DBAccount {
             { new: true }
         );
         await updatedUser?.save();
+        
         const userID = findUser._id.toString();
         return userID;
     }

@@ -11,10 +11,6 @@ export const headerData = [
     link: "/shop",
   },
   {
-    title: "Account",
-    link: "/account",
-  },
-  {
     title: "About",
     link: "/about",
   },

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Link } from "react-router";
-import { baseURL, catalogAPI } from "../api/publicAPI";
+import { baseURL, publicAPI } from "../api/publicAPI";
 import type { getCatalog, ProductItems } from "../types/types";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -14,7 +14,7 @@ const Shop = () => {
   const callCatalog = async () => {
     try {
       const response = await axios.get<getCatalog>(
-        `${baseURL}/${catalogAPI.catalogGet.url}`
+        `${baseURL}/${publicAPI.catalogGet.url}`
       );
       if (response.data.success) {
         setCurrentProduct(response.data.output);
@@ -90,8 +90,8 @@ const Shop = () => {
               {filteredProducts.length > 0 ? (
                 filteredProducts.map((product) => (
                   <Link
-                    to={`/product/${product.productID}`}
-                    key={product.productID}
+                    to={`/product/${product._id}`}
+                    key={product._id}
                     className=" bg-support-gray-dark rounded-lg shadow-xl overflow-hidden transform transition-transform duration-300 hover:scale-105"
                   >
                     <div className="w-full aspect-w-16 aspect-h-9 overflow-hidden">

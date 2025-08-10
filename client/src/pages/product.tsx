@@ -13,7 +13,7 @@ import {
 
 const Product = () => {
   const { productID } = useParams();
-  const product = ProductData.find((p) => p.productID === productID);
+  const product = ProductData.find((p) => p._id === productID);
 
   if (!product) {
     return (

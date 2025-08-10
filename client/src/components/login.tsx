@@ -1,6 +1,11 @@
 import * as React from "react";
-import type { AccountLogin } from "../types/types";
+import type { AccountLogin, APICall } from "../types/types";
 import { FaLock, FaUser } from "react-icons/fa";
+import axios from "axios";
+import { baseURL } from "../api/publicAPI";
+import { userAPI } from "../api/accessAPI";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router";
 
 interface LoginProps {
   setCurrentPage: (page: "Register" | "Login") => void;
@@ -12,7 +17,9 @@ const Login: React.FC<LoginProps> = ({ setCurrentPage }) => {
     password: "",
   });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const navigate = useNavigate();
+
+  const handleInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setLoginData((prevData) => ({
       ...prevData,
@@ -20,9 +27,22 @@ const Login: React.FC<LoginProps> = ({ setCurrentPage }) => {
     }));
   };
 
-  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Login attempt with:", loginData);
+    try {
+      const response = await axios.post<APICall<string>>(
+        `${baseURL}/${userAPI.login.url}`,
+        loginData, {withCredentials: true}
+      );
+      if (response.data.success) {
+        toast.success(response.data.message);
+        navigate("/shop");
+      } else {
+        toast.error(response.data.message);
+      }
+    } catch (error) {
+      toast.error(error as string);
+    }
   };
 
   return (

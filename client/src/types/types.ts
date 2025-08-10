@@ -5,6 +5,11 @@ export interface APICall<T> {
 }
 
 export type getCatalog = APICall<ProductItems[]>;
+
+export type userCart = APICall<CartFormat[]>;
+
+export type userDoc = APICall<AccountDocument>;
+
 export interface AccountLogin {
     username: string,
     password: string,
@@ -21,7 +26,6 @@ export type status = "Active" | "Inactive";
 
 export type permission = "User" | "Admin";
 export interface AccountDocument {
-    userID: string,
     username: string,
     email: string,
     avatar: string,
@@ -31,7 +35,7 @@ export interface AccountDocument {
     createdAt: Date,
 }
 export interface ProductItems {
-    productID: string
+    _id: string
     productName: string,
     productDescription: string,
     productImage: string,
@@ -49,19 +53,12 @@ export interface ProductItems {
     productBrand?: string,
 }
 
-export interface CartShopping {
-    cartID: string,
-    productID: string,
+export interface CartFormat {
+    _id: string,
+    productID: ProductItems,
     quantity: number,
     userID: string,
     createdAt: string,
     updatedAt: string,
 }
 
-export interface MerchantShop {
-    merchantID: string,
-    merchantName: string,
-    merchantAvatar: string,
-    merchantProducts?: ProductItems[],
-    merchantOwner: AccountDocument
-}

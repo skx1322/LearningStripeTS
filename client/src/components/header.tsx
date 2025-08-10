@@ -2,6 +2,9 @@ import { Link, useLocation } from "react-router";
 import * as React from "react";
 import { FaAlignJustify } from "react-icons/fa";
 import { headerData } from "../data/componentData";
+import { baseURL, publicAPI } from "../api/publicAPI";
+import type { APICall } from "../types/types";
+import axios from "axios";
 
 const Header = () => {
   const location = useLocation();
@@ -12,6 +15,22 @@ const Header = () => {
     setIsMobileMenuOpen(false);
   };
 
+  const [isAuthorized, setIsAuthorized] = React.useState<boolean>(false);
+
+  const scanAuth = async () => {
+    const response = await axios.get<APICall<boolean>>(
+      `${baseURL}/${publicAPI.shopAuth.url}`,
+      { withCredentials: true }
+    );
+    if (response.data.success) {
+      setIsAuthorized(response.data.output);
+    }
+  };
+
+  React.useEffect(() => {
+    scanAuth();
+  }, []);
+
   return (
     <header className="bg-primary shadow-2xl sticky z-20 top-0 flex justify-between border-b border-support-gray-dark px-4 py-2 sm:px-48 items-center">
       <div className={isMobileMenuOpen ? "hidden" : "block"}>
@@ -19,12 +38,12 @@ const Header = () => {
           <img
             src="https://nerdantabucket0.sgp1.cdn.digitaloceanspaces.com/FuHuaThumbsup.png"
             alt="LogoFull1"
-            className="h-16 w-16"
+            className="h-12 w-12"
           />
         </span>
       </div>
       <div className="hidden sm:block">
-        <section className="flex items-center text-xl gap-2 sm:gap-6">
+        <section className="flex items-center text-lg gap-2 sm:gap-6">
           {headerData.map((data, index) => (
             <Link
               to={data.link}
@@ -46,6 +65,23 @@ const Header = () => {
               {data.title}
             </Link>
           ))}
+          {!isAuthorized ? (
+            <Link
+              to={"/account"}
+              className={`
+                  text-center
+                  py-4
+                  ${
+                    location.pathname === "account"
+                      ? "text-secondary"
+                      : "text-text-main"
+                  }
+                `}
+              onClick={closeMobileMenu}
+            >
+              {"Account"}
+            </Link>
+          ) : null}
         </section>
       </div>
 
@@ -83,6 +119,23 @@ const Header = () => {
                 {data.title}
               </Link>
             ))}
+            {!isAuthorized ? (
+              <Link
+                to={"/account"}
+                className={`
+                  text-center
+                  py-4
+                  ${
+                    location.pathname === "account"
+                      ? "text-secondary"
+                      : "text-text-main"
+                  }
+                `}
+                onClick={closeMobileMenu}
+              >
+                {"Account"}
+              </Link>
+            ) : null}
           </section>
         </div>
       )}

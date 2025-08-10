@@ -1,6 +1,6 @@
 import { status } from "elysia";
 import { Product } from "../../model/product.model";
-import { ProductCreate, ProductUpdate } from "../../types/types";
+import { ProductCreate, ProductItems, ProductUpdate } from "../../types/types";
 import { deleteS3File, uploadImage } from "./s3";
 import mongoose from "mongoose";
 
@@ -45,7 +45,7 @@ export class ProductDB {
     static async readProduct(userID: string) {
         try {
             const merchantID = new mongoose.Types.ObjectId(userID).toString();
-            const product = await Product.find({ productMerchant: merchantID });
+            const product = await Product.find({ productMerchant: merchantID }) as ProductItems[];
 
             return product;
         } catch (error) {
@@ -56,7 +56,7 @@ export class ProductDB {
 
     static async allProduct() {
         try {
-            const product = await Product.find({ productInStock: true });
+            const product = await Product.find({ productInStock: true }) as ProductItems[];
             return product;
         } catch (error) {
             console.error(error);

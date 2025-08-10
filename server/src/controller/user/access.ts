@@ -2,6 +2,7 @@ import Elysia, { status } from "elysia";
 import { accountModel } from "../../lib/custom/userModel";
 import { DBAccount } from "../../lib/service/db";
 import { JWTDefault } from "../../config/access";
+import { SERVER_CONFIG } from "../../config/env.global";
 
 export const accountUser = new Elysia()
     .use(accountModel)
@@ -23,9 +24,10 @@ export const accountUser = new Elysia()
         userSession.set({
             value: cookieToken,
             httpOnly: true,
-            secure: true,
+            secure: SERVER_CONFIG.IS_PRODUCT ? true : false,
             maxAge: 86400,
-            sameSite: "none"
+            sameSite: SERVER_CONFIG.IS_PRODUCT ? "none" : "lax",
+            path: "/"
         })
 
         return status(200, {

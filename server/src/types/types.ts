@@ -62,7 +62,7 @@ export interface ProductUpdate {
     productBrand?: string,
 }
 export interface ProductItems {
-    productID: string
+    _id: string
     productName: string,
     productDescription: string,
     productImage: string,

@@ -56,5 +56,6 @@ export const authLogout = (app: Elysia) =>
                     message: "User not found within the data.",
                 })
             };
+            delete userSession.value;
             userSession.remove();
         })

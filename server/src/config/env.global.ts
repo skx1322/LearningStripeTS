@@ -2,7 +2,8 @@ export const SERVER_CONFIG = {
     PORT: Bun.env.PORT as string,
     FRONTEND_URL: JSON.parse(Bun.env.FRONTEND_URL as string) as string[],
     JWTKey: Bun.env.JWT_SECRETKEY,
-    CIPHER: Bun.env.CIPHER_KEY
+    CIPHER: Bun.env.CIPHER_KEY,
+    IS_PRODUCT: Bun.env.IS_PRODUCT
 }
 
 export const BUCKET_CONFIG = {
