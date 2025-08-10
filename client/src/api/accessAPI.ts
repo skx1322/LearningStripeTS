@@ -17,4 +17,7 @@ export const userAPI = {
     shopAuth: {
         url: `api/user/isAuth`,
     },
+    shopPayment: {
+        url: `api/payment/checkout`
+    }
 }

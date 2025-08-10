@@ -4,8 +4,9 @@ import Elysia, { status } from "elysia";
 import { authUser } from "../../middleware/auth";
 import { CartDB } from "../../lib/service/cart";
 import { stripe } from "../../config/stripe";
-import { ProductItems } from "../../types/types";
 import { SERVER_CONFIG } from "../../config/env.global";
+import { Transaction } from "../../model/transaction.model";
+import { Order } from "../../model/order.model";
 
 export const payment = new Elysia()
     .use(authUser)
@@ -17,7 +18,15 @@ export const payment = new Elysia()
                     success: false,
                     message: "Your cart is empty.",
                 });
-            }
+            };
+
+            const orderItems = addCart.map(item => ({
+                productID: item.productID._id,
+                quantity: item.quantity,
+                price: item.productID.productPrice
+            }));
+
+            const totalAmount = orderItems.reduce((sum, item) => sum + item.quantity * item.price, 0);
 
             const line_items = addCart.map(item => {
                 const product = item.productID;
@@ -35,21 +44,46 @@ export const payment = new Elysia()
                 };
             });
 
+            const frontendUrl = SERVER_CONFIG.FRONTEND_URL[0];
+            if (!frontendUrl) {
+                throw new Error("Frontend URL is not defined in the environment configuration.");
+            }
+
             const session = await stripe.checkout.sessions.create({
                 payment_method_types: ['card'],
                 line_items,
                 mode: 'payment',
-                success_url: `${SERVER_CONFIG.FRONTEND_URL[0]}/success?session_id={CHECKOUT_SESSION_ID}`,
-                cancel_url: `${SERVER_CONFIG.FRONTEND_URL[0]}/cancel`,
+                success_url: `${frontendUrl}/shop?session_id={CHECKOUT_SESSION_ID}`,
+                cancel_url: `${frontendUrl}`,
+                metadata: {
+                    userID: findUser._id.toString()
+                }
             });
+
+            const newTransaction = new Transaction({
+                userID: findUser._id,
+                stripeSessionId: session.id,
+                status: "pending",
+                amount: totalAmount,
+                currency: "MYR",
+            })
+            await newTransaction.save();
+
+            const newOrder = new Order({
+                userID: findUser._id,
+                items: orderItems,
+                totalAmount: totalAmount,
+                stripeSessionId: session.id,
+                paymentStatus: 'pending',
+            });
+            await newOrder.save();
 
             return status(201, {
                 success: true,
                 message: "Checkout session created.",
-                redirect_url: session.url,
+                output: session.url,
             });
         } catch (error) {
-            console.error(error);
             throw error;
         }
     })

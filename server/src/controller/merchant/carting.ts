@@ -2,6 +2,7 @@ import Elysia, { status } from "elysia";
 import { authUser } from "../../middleware/auth";
 import { CartDB } from "../../lib/service/cart";
 import { cartModel } from "../../lib/custom/cartModel";
+import { PaymentDB } from "../../lib/service/payment";
 
 export const cart = new Elysia()
     .use(authUser)
@@ -43,4 +44,12 @@ export const cart = new Elysia()
         })
     }, {
         body: "cartDelete"
+    })
+    .delete("/cart-clear", async ({ findUser }) => {
+        const deletedItem = await PaymentDB.deleteCartItem(findUser._id);
+        return status(200, {
+            success: true,
+            message: `Product within cart successfully retrieved.`,
+            output: deletedItem
+        })
     })

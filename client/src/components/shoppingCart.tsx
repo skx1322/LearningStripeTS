@@ -3,6 +3,7 @@ import type { CartFormat, userCart } from "../types/types";
 import axios from "axios";
 import { baseURL, publicAPI } from "../api/publicAPI";
 import toast from "react-hot-toast";
+import { paymentCheckout } from "../hook/checkout";
 
 const Cart = () => {
   const [cartItems, setCartItems] = React.useState<CartFormat[]>([]);
@@ -109,7 +110,7 @@ const Cart = () => {
               <span>Total:</span>
               <span>${totalAmount.toFixed(2)}</span>
             </div>
-            <button className="w-full mt-4 bg-primary text-white py-2 rounded-lg hover:bg-opacity-90">
+            <button onClick={paymentCheckout} className="w-full mt-4 bg-primary text-white py-2 rounded-lg hover:bg-opacity-90">
               Checkout
             </button>
           </div>

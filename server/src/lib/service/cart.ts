@@ -40,7 +40,6 @@ export class CartDB {
                 return newCartItem;
             }
         } catch (error) {
-            console.error(error);
             throw error;
         }
     };
@@ -81,7 +80,6 @@ export class CartDB {
 
             return updatedItem;
         } catch (error) {
-            console.error(error);
             throw error;
         }
     };
@@ -91,7 +89,6 @@ export class CartDB {
             const cartItems = await CartShopping.find({ userID }).populate('productID') as unknown as CartFormat[];
             return cartItems;
         } catch (error) {
-            console.error(error);
             throw error;
         }
     };
@@ -109,7 +106,6 @@ export class CartDB {
 
             return deletedItem;
         } catch (error) {
-            console.error(error);
             throw error;
         }
     };

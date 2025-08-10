@@ -37,7 +37,6 @@ export class ProductDB {
             const savedProduct = await newProduct.save();
             return savedProduct;
         } catch (error) {
-            console.error(error);
             throw error;
         }
     };
@@ -49,7 +48,6 @@ export class ProductDB {
 
             return product;
         } catch (error) {
-            console.error(error);
             throw error;
         }
     }
@@ -59,7 +57,15 @@ export class ProductDB {
             const product = await Product.find({ productInStock: true }) as ProductItems[];
             return product;
         } catch (error) {
-            console.error(error);
+            throw error;
+        }
+    }
+
+    static async singleProduct(productID: string) {
+        try {
+            const product = await Product.findById(productID) as ProductItems;
+            return product;
+        } catch (error) {
             throw error;
         }
     }
@@ -93,8 +99,6 @@ export class ProductDB {
                 itemsCategory = [productCreate.productCategory];
             }
 
-            console.log(productCreate.productQuantity)
-
             const payload = {
                 productName: productCreate.productName || findProduct?.productName,
                 productDescription: productCreate.productDescription || findProduct?.productDescription,
@@ -109,7 +113,6 @@ export class ProductDB {
             const savedProduct = await Product.findByIdAndUpdate(productID, payload, { new: true });
             return savedProduct;
         } catch (error) {
-            console.error(error);
             throw error;
         }
     };
@@ -139,7 +142,6 @@ export class ProductDB {
             const deleteProduct = findProduct.deleteOne();
             return deleteProduct;
         } catch (error) {
-            console.error(error);
             throw error;
         }
     }

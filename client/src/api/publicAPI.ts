@@ -5,6 +5,9 @@ export const publicAPI = {
     catalogGet: {
         url: `api/catalog/product`,
     },
+    catalogDetail: {
+        url: `api/catalog/product-detail`,
+    },
     shoppingCart: {
         url: `api/shopping/cart`
     },
