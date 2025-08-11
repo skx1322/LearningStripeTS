@@ -9,7 +9,7 @@ export const userAPI = {
         url: `api/user/login`,
     },
     userDoc: {
-        url: `api/user/account`,
+        url: `api/user`,
     },
     logout: {
         url: `api/user/logout`  

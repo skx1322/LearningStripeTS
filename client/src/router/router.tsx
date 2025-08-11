@@ -5,6 +5,7 @@ import Access from "../pages/access";
 import Product from "../pages/product";
 import Shop from "../pages/shop";
 import About from "../pages/about";
+import Profile from "../pages/profile";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
       {
         path: "/shop",
         element: <Shop />,
+      },
+      {
+        path: "/profile",
+        element: <Profile />
       },
     ],
   },

@@ -13,7 +13,7 @@ export const account = new Elysia()
             },
         });
     })
-    .get("/account", async ({ findUser }) => {
+    .get("/", async ({ findUser }) => {
         return status(200, {
             success: true,
             message: `Account document successfully retrieved!`,
