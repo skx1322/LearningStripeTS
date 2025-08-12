@@ -7,19 +7,23 @@ import { useNavigate } from "react-router";
 import toast from "react-hot-toast";
 
 const Profile = () => {
-  const [user, setUserDoc] = React.useState<AccountDocument>();
+  const [user, setUserDoc] = React.useState<AccountDocument | null>(null);
   const navigate = useNavigate();
 
   const getUserDoc = async () => {
-    const response = await axios.get<userDoc>(
-      `${baseURL}/${userAPI.userDoc.url}`,
-      { withCredentials: true }
-    );
-    if (response.data.success) {
-      setUserDoc(response.data.output);
-    } else {
-      toast.error(response.data.message);
-      navigate("/account");
+    try {
+      const response = await axios.get<userDoc>(
+        `${baseURL}/${userAPI.userDoc.url}`,
+        { withCredentials: true }
+      );
+      if (response.data.success) {
+        setUserDoc(response.data.output);
+      } else {
+        toast.error(response.data.message);
+        navigate("/account");
+      }
+    } catch (error) {
+      toast.error(`Internal server API error.`)
     }
   };
 
