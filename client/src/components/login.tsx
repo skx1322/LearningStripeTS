@@ -32,7 +32,8 @@ const Login: React.FC<LoginProps> = ({ setCurrentPage }) => {
     try {
       const response = await axios.post<APICall<string>>(
         `${baseURL}/${userAPI.login.url}`,
-        loginData, {withCredentials: true}
+        loginData,
+        { withCredentials: true }
       );
       if (response.data.success) {
         toast.success(response.data.message);
@@ -41,10 +42,15 @@ const Login: React.FC<LoginProps> = ({ setCurrentPage }) => {
         toast.error(response.data.message);
       }
     } catch (error) {
-      toast.error(error as string);
+      if (axios.isAxiosError(error) && error.response) {
+        toast.error(
+          error.response.data.message || "An unexpected error occurred."
+        );
+      } else {
+        toast.error("Network Error: Could not connect to the server.");
+      }
     }
   };
-
   return (
     <div className="flex items-center justify-center min-h-screen bg-primary">
       <div className="bg-support-gray-dark p-8 md:p-12 rounded-lg shadow-2xl max-w-md w-full">

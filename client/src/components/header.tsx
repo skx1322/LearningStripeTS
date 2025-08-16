@@ -15,21 +15,32 @@ const Header = () => {
     setIsMobileMenuOpen(false);
   };
 
-  const [isAuthorized, setIsAuthorized] = React.useState<boolean>(false);
+  const [isAuthorized, setIsAuthorized] = React.useState<boolean | null>(null);
 
   const scanAuth = async () => {
-    const response = await axios.get<APICall<boolean>>(
-      `${baseURL}/${publicAPI.shopAuth.url}`,
-      { withCredentials: true }
-    );
-    if (response.data.success) {
-      setIsAuthorized(response.data.output);
+    try {
+      const response = await axios.get<APICall<boolean>>(
+        `${baseURL}/${publicAPI.shopAuth.url}`,
+        { withCredentials: true }
+      );
+      if (response.data.success) {
+        setIsAuthorized(response.data.output);
+      } else {
+        setIsAuthorized(false);
+      }
+    } catch (error) {
+      setIsAuthorized(false);
+      console.error(error);
     }
   };
 
   React.useEffect(() => {
     scanAuth();
   }, []);
+
+  if (isAuthorized === null) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <header className="bg-primary shadow-2xl sticky z-20 top-0 flex justify-between border-b border-support-gray-dark px-4 py-2 sm:px-48 items-center">
