@@ -4,8 +4,9 @@ import { s3 } from "../../config/s3";
 import { getFileBuffer } from "../../utils/bufferFile";
 import { UUIDHex } from "../../utils/uuid";
 
+type acl = "public-read" | "private"
 
-export async function uploadImage(image: File): Promise<string> {
+export async function uploadImage(image: File, perm: acl = "public-read"): Promise<string> {
     try {
         const buffer = await getFileBuffer(image);
         if (!buffer) {
@@ -16,16 +17,10 @@ export async function uploadImage(image: File): Promise<string> {
         const uniqueFileName = `imageAsset/${await UUIDHex("hex", 2)}.${fileExtension}`;
 
         const DO_BUCKET = BUCKET_CONFIG.bucket;
-        const DO_REGION = BUCKET_CONFIG.region;
         const DO_ENDPOINT = BUCKET_CONFIG.endpoint;
 
-        if (!DO_BUCKET || !DO_REGION || !DO_ENDPOINT) {
-            console.error("DigitalOcean Spaces environment variables are not fully configured for URL construction.");
-            return "";
-        }
-
         const s3File = s3.file(uniqueFileName, {
-            acl: "public-read",
+            acl: perm,
             type: image.type
         });
 
